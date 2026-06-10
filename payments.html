@@ -126,7 +126,7 @@ input:focus,select:focus,textarea:focus{border-color:var(--charcoal)}
       </div>
       <div class="field"><label class="lbl">Total project amount ($)</label><input id="pr-total" type="number" placeholder="99" oninput="updateAmounts()" /></div>
       <div class="field"><label class="lbl">Amount due now ($)</label><input id="pr-due" type="number" placeholder="49.50" /></div>
-      <div class="field"><label class="lbl">Your Cash App tag</label><input id="pr-cashapp" placeholder="$yourtag" /></div>
+      <div class="field"><label class="lbl">Your Cash App tag</label><input id="pr-cashapp" placeholder="$adhwaydesign (coming soon)" /></div>
       <div class="field"><label class="lbl">Your Zelle (phone or email)</label><input id="pr-zelle" placeholder="hello@adhwaydesign.com" /></div>
       <div class="field full"><label class="lbl">Custom note (optional)</label><input id="pr-note" placeholder="e.g. Please include your business name in the memo" /></div>
     </div>
@@ -318,7 +318,7 @@ function generatePaymentRequest(){
   const type = document.getElementById('pr-type').value;
   const total = parseFloat(document.getElementById('pr-total').value)||0;
   const due = parseFloat(document.getElementById('pr-due').value)||0;
-  const cashapp = document.getElementById('pr-cashapp').value||'$[yourtag]';
+  const cashapp = document.getElementById('pr-cashapp').value||'$adhwaydesign (Cash App — coming soon)';
   const zelle = document.getElementById('pr-zelle').value||'hello@adhwaydesign.com';
   const note = document.getElementById('pr-note').value;
 
