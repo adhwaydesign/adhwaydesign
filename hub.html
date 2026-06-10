@@ -1033,16 +1033,11 @@ function ncNext(from) {
     const hs = document.getElementById('nc-hosting').value;
     const dt = new Date().toLocaleDateString('en-US',{month:'long',day:'numeric',year:'numeric'});
     document.getElementById('nc4-summary').innerHTML =
-      '<strong>' + nm + '</strong> · ' + bz + '<br>' +
-      'Package: ' + pk + ' · Total: 
-updateDashboard();
-updateEmails();
-</script>
-</body>
-</html>
- + (parseFloat(tt)||0).toFixed(2) + '<br>' +
-      'Hosting: ' + (hs==='trial'?'Yes — 1 month free':'No') + '<br>' +
-      'Date added: ' + dt;
+      <strong>${nm}</strong> · ${bz}<br>
+      Package: ${pk} · Total: $${(parseFloat(tt)||0).toFixed(2)}<br>
+      Hosting: ${hs==='trial'?'Yes — 1 month free':'No'}<br>
+      Date added: ${dt}
+    ';
   }
   document.getElementById('nc'+from).classList.remove('on');
   ncStep = from + 1;
