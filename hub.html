@@ -1033,11 +1033,12 @@ function ncNext(from) {
     const hs = document.getElementById('nc-hosting').value;
     const dt = new Date().toLocaleDateString('en-US',{month:'long',day:'numeric',year:'numeric'});
     document.getElementById('nc4-summary').innerHTML =
-      <strong>${nm}</strong> · ${bz}<br>
-      Package: ${pk} · Total: $${(parseFloat(tt)||0).toFixed(2)}<br>
-      Hosting: ${hs==='trial'?'Yes — 1 month free':'No'}<br>
-      Date added: ${dt}
-    ';
+      '<strong>' + nm + '</strong> · ' + bz + '<br>' +
+      'Package: ' + pk + ' · Total: </body>
+</html>
+ + (parseFloat(tt)||0).toFixed(2) + '<br>' +
+      'Hosting: ' + (hs==='trial'?'Yes — 1 month free':'No') + '<br>' +
+      'Date added: ' + dt;
   }
   document.getElementById('nc'+from).classList.remove('on');
   ncStep = from + 1;
@@ -1155,23 +1156,11 @@ function ncShowContract() {
   const hosting = document.getElementById('nc-hosting').value;
   const dt = new Date().toLocaleDateString('en-US',{month:'long',day:'numeric',year:'numeric'});
 
-  const text = 'Hi ' + name + ',\n\nPlease find your Web Design Services Agreement below for the ' + biz + ' website project.\n\nAGREEMENT SUMMARY\nDate: ' + dt + '\nPackage: ' + pkg + '\nTotal: 
-updateDashboard();
-updateEmails();
-</script>
-</body>
+  const text = 'Hi ' + name + ',\n\nPlease find your Web Design Services Agreement below for the ' + biz + ' website project.\n\nAGREEMENT SUMMARY\nDate: ' + dt + '\nPackage: ' + pkg + '\nTotal: </body>
 </html>
- + total.toFixed(2) + '\nDeposit (due to start): 
-updateDashboard();
-updateEmails();
-</script>
-</body>
+ + total.toFixed(2) + '\nDeposit (due to start): </body>
 </html>
- + deposit + '\nFinal payment (due on completion): 
-updateDashboard();
-updateEmails();
-</script>
-</body>
+ + deposit + '\nFinal payment (due on completion): </body>
 </html>
  + final + '\nDelivery: ' + timeline + '\nHosting: ' + (hosting==='trial'?'1 month free included, then monthly rate':'Client self-manages hosting') + '\n\nSCOPE\n• 1-page mobile-responsive website for ' + biz + '\n• Contact form, business info, hours, Google rating display\n• Up to 2 rounds of revisions\n\nPAYMENT\n• Cash App, Zelle, or PayPal — payable to Destiny Holloway\n• Deposit due before work begins\n• Final payment due on site completion and approval\n\nOWNERSHIP\n• You own the completed site upon final payment\n• I may display the work in my portfolio unless you request otherwise\n\nTO ACCEPT: Simply reply with "I agree to these terms" and send your deposit to get started.\n\nQuestions? Just reply here.\n\n— Destiny\nA.D.H.D | A D Hway Design\nhello@adhwaydesign.com | adhwaydesign.com';
 
@@ -1186,17 +1175,9 @@ function ncShowPayment() {
   const total = parseFloat(document.getElementById('nc-total').value)||0;
   const deposit = (total*0.5).toFixed(2);
 
-  const text = 'Hi ' + name + '! 👋\n\nHere is your deposit request for the ' + biz + ' website project.\n\n📦 Package: ' + pkg + '\n💵 Deposit due to get started: 
-updateDashboard();
-updateEmails();
-</script>
-</body>
+  const text = 'Hi ' + name + '! 👋\n\nHere is your deposit request for the ' + biz + ' website project.\n\n📦 Package: ' + pkg + '\n💵 Deposit due to get started: </body>
 </html>
- + deposit + '\n💰 Remaining balance: 
-updateDashboard();
-updateEmails();
-</script>
-</body>
+ + deposit + '\n💰 Remaining balance: </body>
 </html>
  + (total*0.5).toFixed(2) + ' — due when your site is complete\n\nPayment methods:\n• Cash App: $[yourtag]\n• Zelle: hello@adhwaydesign.com\n\nPlease include your business name in the memo.\n\nOnce payment is received I will send a confirmation and get started right away! 🚀\n\n— Destiny\nA.D.H.D | A D Hway Design\nhello@adhwaydesign.com';
 
@@ -1240,11 +1221,7 @@ function ncSaveClient() {
     phone: document.getElementById('nc-phone').value,
     industry: document.getElementById('nc-industry').value,
     pkg: document.getElementById('nc-pkg').value,
-    paid: '
-updateDashboard();
-updateEmails();
-</script>
-</body>
+    paid: '</body>
 </html>
  + (parseFloat(document.getElementById('nc-total').value||0)*0.5).toFixed(2) + ' (deposit)',
     status: 'intake',
