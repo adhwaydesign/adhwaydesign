@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>A.D.H.D — Payment & Contract Center</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;700;900&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--green:#C8F500;--charcoal:#1A1A1A;--coral:#FF6B6B;--offwhite:#F7F6F0;--white:#FFFFFF;--gray:#F0F0EC;--textgray:#6B6B65;--border:#E2E2DE}
+body{font-family:'DM Sans',sans-serif;background:var(--offwhite);color:var(--charcoal)}
+.wrap{max-width:800px;margin:0 auto;padding:28px 20px}
+.header{display:flex;justify-content:space-between;align-items:center;margin-bottom:32px}
+.logo{display:flex;flex-direction:column}
+.logo .top{font-size:20px;font-weight:900;color:var(--charcoal);letter-spacing:0.04em}
+.logo .bot{font-size:10px;font-weight:300;letter-spacing:0.14em;text-transform:uppercase;color:var(--textgray)}
+.tab-bar{display:flex;border:1px solid var(--border);border-radius:12px;overflow:hidden;margin-bottom:24px;background:var(--white)}
+.tab{flex:1;padding:12px;font-size:13px;font-weight:500;text-align:center;cursor:pointer;color:var(--textgray);transition:all 0.15s;border:none;background:none}
+.tab.on{background:var(--charcoal);color:var(--green)}
+.pane{display:none}.pane.on{display:block}
+.card{background:var(--white);border-radius:16px;border:1px solid var(--border);padding:24px;margin-bottom:16px}
+.card-title{font-size:11px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--textgray);margin-bottom:16px;display:flex;align-items:center;gap:8px}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.field{display:flex;flex-direction:column;gap:5px}
+.field.full{grid-column:1/-1}
+.lbl{font-size:11px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:var(--textgray)}
+input,select,textarea{font-family:'DM Sans',sans-serif;font-size:14px;padding:10px 14px;border:1.5px solid var(--border);border-radius:10px;background:var(--white);color:var(--charcoal);outline:none;transition:border-color 0.2s;width:100%}
+input:focus,select:focus,textarea:focus{border-color:var(--charcoal)}
+.btn{font-family:'DM Sans',sans-serif;font-size:13px;font-weight:600;padding:11px 22px;border-radius:100px;cursor:pointer;border:none;transition:all 0.15s;display:inline-flex;align-items:center;gap:7px}
+.btn-primary{background:var(--charcoal);color:var(--green)}
+.btn-primary:hover{opacity:0.85}
+.btn-green{background:var(--green);color:var(--charcoal)}
+.btn-green:hover{background:#d4ff00}
+.btn-ghost{background:transparent;color:var(--textgray);border:1.5px solid var(--border)}
+.divider{height:1px;background:var(--border);margin:20px 0}
+.output-box{background:var(--charcoal);border-radius:12px;padding:20px;margin-top:16px;display:none}
+.output-box.show{display:block}
+.output-label{font-size:11px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:rgba(255,255,255,0.4);margin-bottom:10px}
+.output-text{font-family:'DM Sans',sans-serif;font-size:13px;color:rgba(255,255,255,0.85);line-height:1.8;white-space:pre-wrap}
+.copy-row{display:flex;gap:10px;margin-top:12px;flex-wrap:wrap}
+.tip{background:#FAFFF0;border-left:4px solid var(--green);border-radius:0 10px 10px 0;padding:12px 16px;font-size:13px;color:var(--charcoal);line-height:1.6;margin-bottom:16px}
+.tip strong{font-weight:600}
+
+/* RECEIPT PREVIEW */
+.receipt{background:var(--white);border-radius:16px;border:2px solid var(--border);overflow:hidden;margin-top:16px;display:none}
+.receipt.show{display:block}
+.receipt-header{background:var(--charcoal);padding:20px 28px;display:flex;justify-content:space-between;align-items:flex-start}
+.r-brand .top{font-size:18px;font-weight:900;color:var(--green);letter-spacing:0.04em}
+.r-brand .bot{font-size:10px;font-weight:300;letter-spacing:0.14em;text-transform:uppercase;color:rgba(255,255,255,0.35);margin-top:2px}
+.r-label{text-align:right}
+.r-label .word{font-size:11px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--green)}
+.r-label .num{font-size:22px;font-weight:900;color:var(--white);line-height:1}
+.receipt-meta{background:var(--green);padding:10px 28px;display:flex;gap:32px}
+.r-meta-item label{font-size:9px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:rgba(0,0,0,0.4);display:block}
+.r-meta-item .val{font-size:12px;font-weight:600;color:var(--charcoal)}
+.receipt-body{padding:24px 28px}
+.r-row{display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--border);font-size:13px}
+.r-row:last-child{border:none}
+.r-row .label{color:var(--textgray)}
+.r-row .value{font-weight:600;color:var(--charcoal)}
+.r-total{background:var(--charcoal);margin:16px 0 0;border-radius:10px;padding:14px 16px;display:flex;justify-content:space-between}
+.r-total .label{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.08em;color:rgba(255,255,255,0.5)}
+.r-total .value{font-size:18px;font-weight:900;color:var(--green)}
+.r-note{font-size:12px;color:var(--textgray);text-align:center;padding:16px 0 4px}
+.receipt-footer{background:var(--charcoal);padding:14px 28px;display:flex;justify-content:space-between;align-items:center}
+.r-footer-brand{font-size:12px;font-weight:700;color:var(--green)}
+.r-footer-contact{font-size:11px;color:rgba(255,255,255,0.4)}
+
+/* CONTRACT PREVIEW */
+.contract-preview{background:var(--white);border-radius:16px;border:2px solid var(--border);padding:32px;margin-top:16px;display:none;font-size:13px;line-height:1.8;color:var(--charcoal)}
+.contract-preview.show{display:block}
+.cp-title{font-size:22px;font-weight:900;text-align:center;margin-bottom:4px;color:var(--charcoal)}
+.cp-sub{font-size:11px;letter-spacing:0.14em;text-transform:uppercase;color:var(--textgray);text-align:center;margin-bottom:24px}
+.cp-section{margin-bottom:20px}
+.cp-section h3{font-size:12px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--charcoal);border-bottom:2px solid var(--green);padding-bottom:4px;margin-bottom:10px}
+.cp-section p{font-size:13px;color:var(--charcoal);line-height:1.7;margin-bottom:8px}
+.cp-section ul{padding-left:20px}
+.cp-section ul li{font-size:13px;color:var(--charcoal);line-height:1.7;margin-bottom:4px}
+.sig-row{display:grid;grid-template-columns:1fr 1fr;gap:32px;margin-top:24px}
+.sig-block p{font-size:12px;color:var(--textgray);margin-bottom:4px}
+.sig-line{border-bottom:1.5px solid var(--charcoal);margin-bottom:6px;height:32px}
+.sig-name{font-size:13px;font-weight:600;color:var(--charcoal)}
+
+@media(max-width:600px){.form-grid{grid-template-columns:1fr}.sig-row{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<div class="header">
+  <div class="logo"><span class="top">A.D.H.D</span><span class="bot">Payment & Contract Center</span></div>
+  <span style="font-size:12px;color:var(--textgray)">hello@adhwaydesign.com</span>
+</div>
+
+<div class="tab-bar">
+  <button class="tab on" onclick="tab(0)">💵 Payment Request</button>
+  <button class="tab" onclick="tab(1)">🧾 Receipt</button>
+  <button class="tab" onclick="tab(2)">📝 Contract</button>
+</div>
+
+<!-- ══ TAB 1: PAYMENT REQUEST ══ -->
+<div class="pane on" id="p0">
+  <div class="tip"><strong>How to take payments:</strong> You don't need a payment processor right now. Just use <strong>Cash App ($yourtag)</strong>, <strong>Zelle (your phone/email)</strong>, or <strong>PayPal</strong>. This tool generates a ready-to-send payment request message with your details.</div>
+
+  <div class="card">
+    <div class="card-title">📋 Payment details</div>
+    <div class="form-grid">
+      <div class="field"><label class="lbl">Client name</label><input id="pr-name" placeholder="e.g. Marcus Johnson" /></div>
+      <div class="field"><label class="lbl">Business name</label><input id="pr-biz" placeholder="e.g. East Side Auto" /></div>
+      <div class="field"><label class="lbl">Package</label>
+        <select id="pr-pkg">
+          <option value="Starter Website — $99">Starter Website — $99</option>
+          <option value="Standard Website — $149">Standard Website — $149</option>
+          <option value="Starter + Logo — $149">Starter + Logo — $149</option>
+          <option value="Standard + Logo — $199">Standard + Logo — $199</option>
+          <option value="Custom">Custom amount</option>
+        </select>
+      </div>
+      <div class="field"><label class="lbl">Payment type</label>
+        <select id="pr-type" onchange="updateAmounts()">
+          <option value="deposit">Deposit (50% to start)</option>
+          <option value="final">Final payment (50% on completion)</option>
+          <option value="full">Full payment upfront</option>
+          <option value="hosting">Monthly hosting</option>
+        </select>
+      </div>
+      <div class="field"><label class="lbl">Total project amount ($)</label><input id="pr-total" type="number" placeholder="99" oninput="updateAmounts()" /></div>
+      <div class="field"><label class="lbl">Amount due now ($)</label><input id="pr-due" type="number" placeholder="49.50" /></div>
+      <div class="field"><label class="lbl">Your Cash App tag</label><input id="pr-cashapp" placeholder="$yourtag" /></div>
+      <div class="field"><label class="lbl">Your Zelle (phone or email)</label><input id="pr-zelle" placeholder="hello@adhwaydesign.com" /></div>
+      <div class="field full"><label class="lbl">Custom note (optional)</label><input id="pr-note" placeholder="e.g. Please include your business name in the memo" /></div>
+    </div>
+    <div style="margin-top:16px;display:flex;gap:10px">
+      <button class="btn btn-primary" onclick="generatePaymentRequest()">Generate payment request</button>
+    </div>
+  </div>
+
+  <div class="output-box" id="pr-output">
+    <div class="output-label">Payment request — copy & send via text or email</div>
+    <div class="output-text" id="pr-text"></div>
+    <div class="copy-row">
+      <button class="btn btn-green" onclick="copyText('pr-text','pr-copy-btn')" id="pr-copy-btn">Copy message</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══ TAB 2: RECEIPT ══ -->
+<div class="pane" id="p1">
+  <div class="tip"><strong>Send a receipt every time you receive a payment.</strong> It looks professional, protects you both, and keeps your records clean. Fill in the details and print or screenshot to send.</div>
+
+  <div class="card">
+    <div class="card-title">🧾 Receipt details</div>
+    <div class="form-grid">
+      <div class="field"><label class="lbl">Receipt number</label><input id="rc-num" placeholder="RCP-001" /></div>
+      <div class="field"><label class="lbl">Date</label><input id="rc-date" type="date" /></div>
+      <div class="field"><label class="lbl">Client name</label><input id="rc-name" placeholder="Marcus Johnson" /></div>
+      <div class="field"><label class="lbl">Business name</label><input id="rc-biz" placeholder="East Side Auto" /></div>
+      <div class="field"><label class="lbl">Package / service</label><input id="rc-pkg" placeholder="Starter Website — $99" /></div>
+      <div class="field"><label class="lbl">Payment type</label>
+        <select id="rc-type">
+          <option>Deposit (50%)</option>
+          <option>Final payment (50%)</option>
+          <option>Full payment</option>
+          <option>Monthly hosting</option>
+          <option>Logo design add-on</option>
+          <option>Other</option>
+        </select>
+      </div>
+      <div class="field"><label class="lbl">Amount received ($)</label><input id="rc-amount" type="number" placeholder="49.50" /></div>
+      <div class="field"><label class="lbl">Payment method</label>
+        <select id="rc-method">
+          <option>Cash App</option><option>Zelle</option><option>PayPal</option><option>Cash</option><option>Other</option>
+        </select>
+      </div>
+      <div class="field"><label class="lbl">Balance remaining ($)</label><input id="rc-balance" type="number" placeholder="49.50" /></div>
+      <div class="field"><label class="lbl">Transaction ID (optional)</label><input id="rc-txn" placeholder="e.g. Cash App transaction ID" /></div>
+    </div>
+    <div style="margin-top:16px;display:flex;gap:10px">
+      <button class="btn btn-primary" onclick="generateReceipt()">Generate receipt</button>
+    </div>
+  </div>
+
+  <div class="receipt" id="receipt-preview">
+    <div class="receipt-header">
+      <div class="r-brand"><div class="top">A.D.H.D</div><div class="bot">A D Hway Design</div></div>
+      <div class="r-label"><div class="word">Receipt</div><div class="num" id="r-num">RCP-001</div></div>
+    </div>
+    <div class="receipt-meta">
+      <div class="r-meta-item"><label>Date</label><div class="val" id="r-date">—</div></div>
+      <div class="r-meta-item"><label>Client</label><div class="val" id="r-client">—</div></div>
+      <div class="r-meta-item"><label>Method</label><div class="val" id="r-method">—</div></div>
+      <div class="r-meta-item"><label>Status</label><div class="val" id="r-status">✅ Paid</div></div>
+    </div>
+    <div class="receipt-body">
+      <div class="r-row"><span class="label">Service</span><span class="value" id="r-pkg">—</span></div>
+      <div class="r-row"><span class="label">Payment type</span><span class="value" id="r-type">—</span></div>
+      <div class="r-row"><span class="label">Transaction ID</span><span class="value" id="r-txn">—</span></div>
+      <div class="r-total"><span class="label">Amount received</span><span class="value" id="r-amount">$0.00</span></div>
+      <div class="r-row" style="margin-top:12px"><span class="label">Balance remaining</span><span class="value" id="r-balance">$0.00</span></div>
+      <div class="r-note" id="r-note">Thank you for your business! Questions? hello@adhwaydesign.com</div>
+    </div>
+    <div class="receipt-footer">
+      <div class="r-footer-brand">A.D.H.D | A D Hway Design</div>
+      <div class="r-footer-contact">hello@adhwaydesign.com · adhwaydesign.com</div>
+    </div>
+  </div>
+  <div id="receipt-actions" style="display:none;margin-top:12px;display:none">
+    <button class="btn btn-green" onclick="window.print()">🖨 Print / Save as PDF</button>
+  </div>
+</div>
+
+<!-- ══ TAB 3: CONTRACT ══ -->
+<div class="pane" id="p2">
+  <div class="tip"><strong>Generate a simple contract for each client.</strong> Fill in the details, preview it, then copy the text to paste into an email. Ask them to reply with "I agree" — that counts as written consent. For extra protection, use a free tool like <strong>DocuSign</strong> or <strong>HelloSign</strong> for a real signature.</div>
+
+  <div class="card">
+    <div class="card-title">📝 Contract details</div>
+    <div class="form-grid">
+      <div class="field"><label class="lbl">Date</label><input id="ct-date" type="date" /></div>
+      <div class="field"><label class="lbl">Contract number</label><input id="ct-num" placeholder="CON-001" /></div>
+      <div class="field"><label class="lbl">Client name</label><input id="ct-name" placeholder="Marcus Johnson" /></div>
+      <div class="field"><label class="lbl">Business name</label><input id="ct-biz" placeholder="East Side Auto" /></div>
+      <div class="field"><label class="lbl">Client email</label><input id="ct-email" placeholder="client@email.com" /></div>
+      <div class="field"><label class="lbl">Package</label>
+        <select id="ct-pkg">
+          <option>Starter Website — $99</option>
+          <option>Standard Website — $149</option>
+          <option>Starter + Logo — $149</option>
+          <option>Standard + Logo — $199</option>
+          <option>Custom</option>
+        </select>
+      </div>
+      <div class="field"><label class="lbl">Total amount ($)</label><input id="ct-total" type="number" placeholder="99" /></div>
+      <div class="field"><label class="lbl">Hosting?</label>
+        <select id="ct-hosting">
+          <option value="yes">Yes — 1 month free, then monthly</option>
+          <option value="no">No — client manages own hosting</option>
+        </select>
+      </div>
+      <div class="field full"><label class="lbl">Delivery timeline</label>
+        <select id="ct-timeline">
+          <option>48–72 hours after receiving all content</option>
+          <option>3–5 business days after receiving all content</option>
+          <option>1 week after receiving all content</option>
+        </select>
+      </div>
+    </div>
+    <div style="margin-top:16px;display:flex;gap:10px">
+      <button class="btn btn-primary" onclick="generateContract()">Preview contract</button>
+    </div>
+  </div>
+
+  <div class="contract-preview" id="contract-preview">
+    <div class="cp-title">A.D.H.D | A D Hway Design</div>
+    <div class="cp-sub">Web Design Services Agreement</div>
+    <div id="contract-body"></div>
+    <div class="sig-row">
+      <div class="sig-block">
+        <p>Service Provider</p>
+        <div class="sig-line"></div>
+        <div class="sig-name">Destiny Holloway</div>
+        <div style="font-size:11px;color:var(--textgray)">A.D.H.D | A D Hway Design</div>
+        <div style="font-size:11px;color:var(--textgray);margin-top:8px">Date: _______________</div>
+      </div>
+      <div class="sig-block">
+        <p>Client</p>
+        <div class="sig-line"></div>
+        <div class="sig-name" id="sig-client">Client Name</div>
+        <div style="font-size:11px;color:var(--textgray)" id="sig-biz">Business Name</div>
+        <div style="font-size:11px;color:var(--textgray);margin-top:8px">Date: _______________</div>
+      </div>
+    </div>
+  </div>
+
+  <div id="contract-actions" style="display:none;margin-top:12px">
+    <div class="copy-row">
+      <button class="btn btn-green" onclick="window.print()">🖨 Print / Save as PDF</button>
+      <button class="btn btn-ghost" onclick="copyContractText()" id="ct-copy-btn">Copy as plain text</button>
+    </div>
+    <div class="output-box show" style="margin-top:16px">
+      <div class="output-label">Email to send with the contract</div>
+      <div class="output-text" id="ct-email-text"></div>
+      <div class="copy-row"><button class="btn btn-green" onclick="copyText('ct-email-text','ct-email-btn')" id="ct-email-btn">Copy email</button></div>
+    </div>
+  </div>
+</div>
+
+</div><!-- /wrap -->
+
+<script>
+// ── TAB NAVIGATION ──────────────────────────────────────────────────────────
+function tab(n){
+  document.querySelectorAll('.tab').forEach((t,i)=>t.classList.toggle('on',i===n));
+  document.querySelectorAll('.pane').forEach((p,i)=>p.classList.toggle('on',i===n));
+}
+
+// Set today's date on date fields
+document.querySelectorAll('input[type="date"]').forEach(el => {
+  el.value = new Date().toISOString().split('T')[0];
+});
+
+// ── PAYMENT REQUEST ─────────────────────────────────────────────────────────
+function updateAmounts(){
+  const total = parseFloat(document.getElementById('pr-total').value)||0;
+  const type = document.getElementById('pr-type').value;
+  let due = 0;
+  if(type==='deposit') due = total*0.5;
+  else if(type==='final') due = total*0.5;
+  else if(type==='full') due = total;
+  else if(type==='hosting') due = total;
+  if(due) document.getElementById('pr-due').value = due.toFixed(2);
+}
+
+function generatePaymentRequest(){
+  const name = document.getElementById('pr-name').value||'[Client]';
+  const biz = document.getElementById('pr-biz').value||'[Business]';
+  const pkg = document.getElementById('pr-pkg').value;
+  const type = document.getElementById('pr-type').value;
+  const total = parseFloat(document.getElementById('pr-total').value)||0;
+  const due = parseFloat(document.getElementById('pr-due').value)||0;
+  const cashapp = document.getElementById('pr-cashapp').value||'$[yourtag]';
+  const zelle = document.getElementById('pr-zelle').value||'hello@adhwaydesign.com';
+  const note = document.getElementById('pr-note').value;
+
+  const typeLabels = {deposit:'50% deposit to get started',final:'50% final payment — your site is ready to go live!',full:'full payment upfront',hosting:'monthly hosting payment'};
+  const remaining = type==='deposit' ? `\n💰 Remaining balance: $${(total-due).toFixed(2)} — due when your site is complete` : '';
+
+  const msg = `Hi ${name}! 👋
+
+Here's your payment request for the ${biz} website project.
+
+📦 Package: ${pkg}
+💵 ${typeLabels[type]||'Payment'}: $${due.toFixed(2)}${remaining}
+
+Payment methods:
+• Cash App: ${cashapp}
+• Zelle: ${zelle}
+
+${note ? `📝 Note: ${note}\n` : ''}Please include your business name in the memo so I can match it to your project.
+
+Once payment is received I'll send a confirmation and we'll get started right away! 🚀
+
+Questions? Reply here or email hello@adhwaydesign.com
+
+— Destiny
+A.D.H.D | A D Hway Design`;
+
+  document.getElementById('pr-text').textContent = msg;
+  document.getElementById('pr-output').classList.add('show');
+}
+
+// ── RECEIPT ─────────────────────────────────────────────────────────────────
+function generateReceipt(){
+  const num = document.getElementById('rc-num').value||'RCP-001';
+  const date = document.getElementById('rc-date').value;
+  const name = document.getElementById('rc-name').value||'—';
+  const biz = document.getElementById('rc-biz').value||'—';
+  const pkg = document.getElementById('rc-pkg').value||'—';
+  const type = document.getElementById('rc-type').value;
+  const amount = parseFloat(document.getElementById('rc-amount').value)||0;
+  const method = document.getElementById('rc-method').value;
+  const balance = parseFloat(document.getElementById('rc-balance').value)||0;
+  const txn = document.getElementById('rc-txn').value||'N/A';
+
+  document.getElementById('r-num').textContent = num;
+  document.getElementById('r-date').textContent = date ? new Date(date+'T12:00:00').toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'}) : '—';
+  document.getElementById('r-client').textContent = name + (biz ? ' / ' + biz : '');
+  document.getElementById('r-method').textContent = method;
+  document.getElementById('r-pkg').textContent = pkg;
+  document.getElementById('r-type').textContent = type;
+  document.getElementById('r-txn').textContent = txn;
+  document.getElementById('r-amount').textContent = '$' + amount.toFixed(2);
+  document.getElementById('r-balance').textContent = balance > 0 ? '$' + balance.toFixed(2) + ' remaining' : '✅ Paid in full';
+  document.getElementById('r-note').textContent = balance > 0 ? `Balance of $${balance.toFixed(2)} due upon project completion. Questions? hello@adhwaydesign.com` : 'Paid in full. Thank you for your business! hello@adhwaydesign.com';
+
+  document.getElementById('receipt-preview').classList.add('show');
+  document.getElementById('receipt-actions').style.display = 'block';
+}
+
+// ── CONTRACT ─────────────────────────────────────────────────────────────────
+function generateContract(){
+  const date = document.getElementById('ct-date').value;
+  const num = document.getElementById('ct-num').value||'CON-001';
+  const name = document.getElementById('ct-name').value||'[Client Name]';
+  const biz = document.getElementById('ct-biz').value||'[Business Name]';
+  const email = document.getElementById('ct-email').value||'[Client Email]';
+  const pkg = document.getElementById('ct-pkg').value;
+  const total = parseFloat(document.getElementById('ct-total').value)||0;
+  const hosting = document.getElementById('ct-hosting').value;
+  const timeline = document.getElementById('ct-timeline').value;
+  const deposit = (total*0.5).toFixed(2);
+  const final = (total*0.5).toFixed(2);
+  const fmtDate = date ? new Date(date+'T12:00:00').toLocaleDateString('en-US',{month:'long',day:'numeric',year:'numeric'}) : new Date().toLocaleDateString('en-US',{month:'long',day:'numeric',year:'numeric'});
+
+  document.getElementById('sig-client').textContent = name;
+  document.getElementById('sig-biz').textContent = biz;
+
+  document.getElementById('contract-body').innerHTML = `
+    <div class="cp-section">
+      <h3>Agreement details</h3>
+      <p>Agreement #${num} · Date: ${fmtDate}</p>
+      <p><strong>Service Provider:</strong> Destiny Holloway, A.D.H.D | A D Hway Design, Cleveland, Ohio · hello@adhwaydesign.com</p>
+      <p><strong>Client:</strong> ${name} · ${biz} · ${email}</p>
+    </div>
+    <div class="cp-section">
+      <h3>Scope of work</h3>
+      <ul>
+        <li>One (1) single-page, mobile-responsive website for ${biz}</li>
+        <li>Package: ${pkg}</li>
+        <li>Contact form, business info, hours, and Google rating display (if applicable)</li>
+        <li>Up to two (2) rounds of revisions</li>
+        <li>Preview delivered within ${timeline}</li>
+      </ul>
+    </div>
+    <div class="cp-section">
+      <h3>Payment terms</h3>
+      <ul>
+        <li>Total: <strong>$${total.toFixed(2)}</strong></li>
+        <li>Deposit (due to begin): <strong>$${deposit}</strong> — due upon signing</li>
+        <li>Final payment: <strong>$${final}</strong> — due upon completion & approval</li>
+        <li>Methods: Cash App, Zelle, PayPal — payable to Destiny Holloway</li>
+        <li>Late final payment (7+ days) pauses go-live until received</li>
+      </ul>
+    </div>
+    <div class="cp-section">
+      <h3>Hosting & maintenance</h3>
+      <p>${hosting==='yes' ? `First month of hosting included at no charge. After the first month, hosting continues at the agreed monthly rate. Either party may cancel with 30 days written notice.` : `Client will manage their own hosting. All website files delivered upon final payment.`}</p>
+    </div>
+    <div class="cp-section">
+      <h3>Revisions & cancellation</h3>
+      <ul>
+        <li>2 revision rounds included. Additional rounds billed at $35 each.</li>
+        <li>Cancelled before work begins: full deposit refunded.</li>
+        <li>Cancelled after work begins: deposit non-refundable; work to date delivered.</li>
+      </ul>
+    </div>
+    <div class="cp-section">
+      <h3>Ownership</h3>
+      <p>Client owns the completed website upon receipt of final payment. Service Provider may display work in portfolio unless client requests otherwise in writing. Client is responsible for copyright of any content they provide.</p>
+    </div>
+    <div class="cp-section">
+      <h3>General</h3>
+      <p>This agreement is governed by the laws of the State of Ohio. Any changes require written agreement (email acceptable). Service Provider is not responsible for search engine rankings or third-party hosting outages.</p>
+    </div>`;
+
+  document.getElementById('contract-preview').classList.add('show');
+  document.getElementById('contract-actions').style.display = 'block';
+
+  const emailMsg = `Hi ${name}!
+
+Attached/below is the Web Design Services Agreement for the ${biz} website project.
+
+📋 QUICK SUMMARY:
+• Package: ${pkg}
+• Deposit due to start: $${deposit}
+• Final payment on completion: $${final}
+• Delivery: ${timeline}
+
+TO AGREE: Simply reply to this email with "I agree to these terms" — that serves as your written acceptance.
+
+For a formal signature, I can also send this through DocuSign if you prefer.
+
+Once you reply and the deposit is received, I'll get started right away!
+
+Questions before signing? Just reply here.
+
+— Destiny
+A.D.H.D | A D Hway Design
+hello@adhwaydesign.com · adhwaydesign.com`;
+
+  document.getElementById('ct-email-text').textContent = emailMsg;
+}
+
+function copyContractText(){
+  const text = document.getElementById('contract-body').innerText;
+  navigator.clipboard.writeText(text).then(()=>{
+    document.getElementById('ct-copy-btn').textContent='✓ Copied!';
+    setTimeout(()=>document.getElementById('ct-copy-btn').textContent='Copy as plain text',2000);
+  });
+}
+
+// ── UTILITIES ────────────────────────────────────────────────────────────────
+function copyText(id, btnId){
+  const text = document.getElementById(id).textContent;
+  navigator.clipboard.writeText(text).then(()=>{
+    const btn = document.getElementById(btnId);
+    btn.textContent='✓ Copied!';
+    setTimeout(()=>btn.textContent='Copy message',2000);
+  });
+}
+</script>
+</body>
+</html>
