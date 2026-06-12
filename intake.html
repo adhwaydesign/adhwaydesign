@@ -382,32 +382,68 @@ function submitForm() {
     notes: document.getElementById('f-notes').value
   };
 
-  // Build email body
-  const emailBody = `
-NEW WEBSITE INTAKE SUBMISSION
+  // Build AI PROMPT for auto-website generation
+  const aiPrompt = `BUILD A CUSTOM WEBSITE
 
-CLIENT INFO:
-Name: ${formData.name}
-Email: ${formData.email}
-Phone: ${formData.phone || 'Not provided'}
+Business Information:
+- Business Name: ${formData.business}
+- Owner/Contact: ${formData.name}
+- Location: ${formData.location}
+- Email: ${formData.email}
+- Phone: ${formData.phone || 'Not provided'}
 
-BUSINESS INFO:
-Business Name: ${formData.business}
-Location: ${formData.location}
-Description: ${formData.description}
-Services: ${formData.services || 'Not provided'}
+About the Business:
+${formData.description}
 
-PREFERENCES:
-Design Style: ${formData.vibes || 'Not specified'}
-Brand Colors: ${formData.colors || 'Not specified'}
-Package: ${formData.package}
+Services/Products:
+${formData.services || 'Not specified'}
 
-ADDITIONAL NOTES:
+Design Preferences:
+- Style: ${formData.vibes || 'Clean and professional'}
+- Brand Colors: ${formData.colors || 'Choose appropriate colors for the industry'}
+- Package: ${formData.package}
+
+Additional Notes:
 ${formData.notes || 'None'}
 
----
-This form was submitted from adhwaydesign.com/intake
+REQUIREMENTS:
+- Single-page, mobile-responsive website
+- HTML only (no frameworks)
+- Contact form included
+- Fast loading
+- Professional and trustworthy appearance
+- Use A.D.H.D brand colors if no colors specified: Green #C8F500, Charcoal #1A1A1A, Coral #FF6B6B
+- Use fonts: DM Sans (primary), Instrument Serif (italic accents)
+- Infer realistic, compelling content where details are missing
+- Make it conversion-focused
+
+OUTPUT: Complete, production-ready HTML file that can be deployed immediately.`;
+
+  // Build email body (CLEAN - for client to see only)
+  const emailBody = `
+Hi ${formData.name},
+
+Thanks for choosing A.D.H.D | A D Hway Design!
+
+I've received your website intake form for ${formData.business}. Here's what happens next:
+
+1. I'll review everything you shared
+2. I'll send you a payment request for the deposit
+3. Once you pay, I'll start building your custom site
+4. You'll get a preview within 48–72 hours
+5. We'll fine-tune and your site goes live!
+
+Any questions? Just reply to this email.
+
+Thanks,
+Destiny Holloway
+A.D.H.D | A D Hway Design
+Cleveland, OH
+hello@adhwaydesign.com
 `.trim();
+
+  // Console log the AI prompt for your reference (you can copy from browser console if needed)
+  console.log("AI PROMPT FOR WEBSITE GENERATION:\n\n" + aiPrompt);
 
   // Open email with all data pre-filled
   const subject = `New Website Intake: ${formData.business}`;
