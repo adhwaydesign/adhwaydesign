@@ -547,6 +547,9 @@ document.getElementById('intake-form').addEventListener('submit', async function
   buildPrompt();
 
   const formData = new FormData(this);
+  const clientName = document.getElementById('f-name').value;
+  const clientEmail = document.getElementById('f-email').value;
+  const businessName = document.getElementById('f-biz').value;
 
   try {
     const response = await fetch('https://formspree.io/f/xbdekkqo', {
@@ -560,10 +563,25 @@ document.getElementById('intake-form').addEventListener('submit', async function
       document.getElementById('success').classList.add('show');
       window.scrollTo({ top: 0, behavior: 'smooth' });
     } else {
-      alert('Something went wrong. Please try again or email hello@adhwaydesign.com directly.');
+      // If Formspree fails, send via email as backup
+      const subject = `New Website Intake: ${businessName}`;
+      const body = `Name: ${clientName}\nEmail: ${clientEmail}\nBusiness: ${businessName}\n\nPlease reply to this intake form submission.`;
+      window.location.href = `mailto:hello@adhwaydesign.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+      
+      document.getElementById('step' + currentStep).classList.remove('active');
+      document.getElementById('success').classList.add('show');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     }
   } catch (err) {
-    alert('Something went wrong. Please try again or email hello@adhwaydesign.com directly.');
+    console.error('Form submission error:', err);
+    // Backup: open email client
+    const subject = `New Website Intake: ${businessName}`;
+    const body = `Name: ${clientName}\nEmail: ${clientEmail}\nBusiness: ${businessName}\n\nPlease reply to this intake form submission.`;
+    window.location.href = `mailto:hello@adhwaydesign.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+    
+    document.getElementById('step' + currentStep).classList.remove('active');
+    document.getElementById('success').classList.add('show');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 });
 </script>
