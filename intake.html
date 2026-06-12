@@ -46,11 +46,16 @@ body{font-family:'DM Sans',sans-serif;background:var(--charcoal);color:var(--whi
 .choice-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:6px}
 .choice-card{position:relative}
 .choice-card input{position:absolute;opacity:0}
-.choice-label{display:flex;flex-direction:column;gap:4px;padding:14px 16px;background:rgba(255,255,255,0.04);border:1.5px solid rgba(255,255,255,0.08);border-radius:14px;transition:all 0.2s;cursor:pointer}
-.choice-card input:checked + .choice-label{background:rgba(200,245,0,0.08);border-color:var(--green)}
-.choice-label:hover{background:rgba(255,255,255,0.07)}
-.choice-title{font-size:13px;font-weight:600;color:var(--white)}
-.choice-desc{font-size:11px;color:rgba(255,255,255,0.4);line-height:1.5}
+.choice-label{display:flex;flex-direction:column;gap:8px;padding:16px;background:rgba(255,255,255,0.04);border:1.5px solid rgba(255,255,255,0.08);border-radius:16px;transition:all 0.25s;cursor:pointer;position:relative;overflow:hidden}
+.choice-label::before{content:'';position:absolute;top:0;left:0;right:0;bottom:0;background:linear-gradient(135deg,rgba(200,245,0,0.1),transparent);opacity:0;transition:opacity 0.25s;pointer-events:none}
+.choice-card input:checked + .choice-label{background:rgba(200,245,0,0.12);border-color:var(--green);box-shadow:0 0 20px rgba(200,245,0,0.15),inset 0 0 20px rgba(200,245,0,0.08);transform:translateY(-2px)}
+.choice-card input:checked + .choice-label::before{opacity:1}
+.choice-label:hover{background:rgba(255,255,255,0.08);border-color:rgba(200,245,0,0.3);transform:translateY(-1px)}
+.choice-icon{font-size:24px;line-height:1;margin-bottom:4px}
+.choice-title{font-size:14px;font-weight:700;color:var(--white);letter-spacing:-0.01em}
+.choice-desc{font-size:11px;color:rgba(255,255,255,0.5);line-height:1.5}
+.check-mark{position:absolute;top:8px;right:8px;width:20px;height:20px;border-radius:50%;border:2px solid rgba(255,255,255,0.2);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:900;color:var(--charcoal);background:transparent;transition:all 0.25s;opacity:0}
+.choice-card input:checked ~ .check-mark{background:var(--green);border-color:var(--green);opacity:1}
 .btn-row{display:flex;gap:12px;margin-top:32px}
 .btn-next{flex:1;background:var(--green);color:var(--charcoal);font-family:'DM Sans',sans-serif;font-size:15px;font-weight:700;padding:16px 32px;border-radius:100px;border:none;cursor:pointer;transition:all 0.2s;display:flex;align-items:center;justify-content:center;gap:8px}
 .btn-next:hover{background:#d4ff00;transform:translateY(-2px)}
@@ -172,30 +177,38 @@ body{font-family:'DM Sans',sans-serif;background:var(--charcoal);color:var(--whi
       <div class="choice-card">
         <input type="checkbox" id="vibe-minimal" name="vibe" value="Minimal">
         <label for="vibe-minimal" class="choice-label">
+          <span class="choice-icon">⚫</span>
           <span class="choice-title">Minimal</span>
           <span class="choice-desc">Clean & simple</span>
         </label>
+        <div class="check-mark">✓</div>
       </div>
       <div class="choice-card">
         <input type="checkbox" id="vibe-bold" name="vibe" value="Bold">
         <label for="vibe-bold" class="choice-label">
+          <span class="choice-icon">🔥</span>
           <span class="choice-title">Bold</span>
           <span class="choice-desc">Eye-catching</span>
         </label>
+        <div class="check-mark">✓</div>
       </div>
       <div class="choice-card">
         <input type="checkbox" id="vibe-corporate" name="vibe" value="Corporate">
         <label for="vibe-corporate" class="choice-label">
+          <span class="choice-icon">💼</span>
           <span class="choice-title">Corporate</span>
           <span class="choice-desc">Professional</span>
         </label>
+        <div class="check-mark">✓</div>
       </div>
       <div class="choice-card">
         <input type="checkbox" id="vibe-playful" name="vibe" value="Playful">
         <label for="vibe-playful" class="choice-label">
+          <span class="choice-icon">🎨</span>
           <span class="choice-title">Playful</span>
           <span class="choice-desc">Friendly</span>
         </label>
+        <div class="check-mark">✓</div>
       </div>
     </div>
   </div>
@@ -223,23 +236,29 @@ body{font-family:'DM Sans',sans-serif;background:var(--charcoal);color:var(--whi
       <div class="choice-card">
         <input type="radio" id="pkg-starter" name="package" value="Starter Website ($99)" required>
         <label for="pkg-starter" class="choice-label">
+          <span class="choice-icon">🚀</span>
           <span class="choice-title">Starter</span>
           <span class="choice-desc">$99</span>
         </label>
+        <div class="check-mark">✓</div>
       </div>
       <div class="choice-card">
         <input type="radio" id="pkg-standard" name="package" value="Standard Website ($149)" checked>
         <label for="pkg-standard" class="choice-label">
+          <span class="choice-icon">⭐</span>
           <span class="choice-title">Standard</span>
           <span class="choice-desc">$149</span>
         </label>
+        <div class="check-mark">✓</div>
       </div>
       <div class="choice-card">
         <input type="radio" id="pkg-logo" name="package" value="Website + Logo ($199)">
         <label for="pkg-logo" class="choice-label">
+          <span class="choice-icon">✨</span>
           <span class="choice-title">+ Logo</span>
           <span class="choice-desc">$199</span>
         </label>
+        <div class="check-mark">✓</div>
       </div>
     </div>
   </div>
